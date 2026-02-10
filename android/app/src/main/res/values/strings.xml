@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Dark AI</string>
+    <string name="title_activity_main">Dark AI</string>
+    <string name="package_name">com.darkai.app</string>
+    <string name="custom_url_scheme">com.darkai.app</string>
+</resources>

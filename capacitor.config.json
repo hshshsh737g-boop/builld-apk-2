@@ -1,0 +1,22 @@
+{
+  "appId": "com.darkai.app",
+  "appName": "Dark AI",
+  "webDir": "www",
+  "server": {
+    "url": "https://dark-ai-beta.vercel.app/",
+    "cleartext": true
+  },
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 2000,
+      "launchAutoHide": true,
+      "launchFadeOutDuration": 300,
+      "backgroundColor": "#121212",
+      "androidSplashResourceName": "splash",
+      "showSpinner": false,
+      "androidScaleType": "CENTER_CROP",
+      "splashFullScreen": true,
+      "splashImmersive": true
+    }
+  }
+}
