@@ -1,8 +1,8 @@
-node_modules/
-dist/
-www/
-android/app/build/
-android/.gradle/
-android/local.properties
+node_modules
+dist
+www
 .DS_Store
-Thumbs.db
+.env
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
