@@ -30,6 +30,12 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
+      - name: Install Capacitor Assets
+        run: npm install @capacitor/assets --save-dev
+
+      - name: Generate App Icons
+        run: npx @capacitor/assets generate --android --iconBackgroundColor '#000000' --iconBackgroundColorDark '#000000'
+
       - name: Sync Capacitor
         run: npx cap sync android
 

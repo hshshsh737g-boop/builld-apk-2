@@ -4,7 +4,8 @@
   "webDir": "www",
   "server": {
     "url": "https://dark-ai-beta.vercel.app/",
-    "cleartext": true
+    "cleartext": true,
+    "androidScheme": "https"
   },
   "plugins": {
     "SplashScreen": {
@@ -17,6 +18,11 @@
       "androidScaleType": "CENTER_CROP",
       "splashFullScreen": true,
       "splashImmersive": true
+    },
+    "StatusBar": {
+      "style": "dark",
+      "backgroundColor": "#000000",
+      "overlay": false
     }
   }
 }
