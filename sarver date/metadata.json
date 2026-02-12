@@ -1,0 +1,5 @@
+{
+  "name": "Dark AI // Terminal",
+  "description": "A restricted-access terminal for interfacing with the Dark AI entity. Features a reactive matrix environment and direct neural link.",
+  "requestFramePermissions": []
+}

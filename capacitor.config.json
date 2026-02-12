@@ -2,11 +2,6 @@
   "appId": "com.darkai.app",
   "appName": "Dark AI",
   "webDir": "www",
-  "server": {
-    "url": "https://dark-ai-beta.vercel.app/",
-    "cleartext": true,
-    "androidScheme": "https"
-  },
   "plugins": {
     "SplashScreen": {
       "launchShowDuration": 2000,
