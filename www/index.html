@@ -5,40 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Dark AI</title>
     <style>
-        * {
-            padding-top: env(safe-area-inset-top);
-            padding-bottom: env(safe-area-inset-bottom);
-        }
         body {
             margin: 0;
             padding: 0;
+            background: #000;
+            color: #0ff;
         }
     </style>
-    <script>
-        // Register service worker for offline support
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', function() {
-                navigator.serviceWorker.register('/sw.js')
-                    .then(function(registration) {
-                        console.log('ServiceWorker registered:', registration.scope);
-                    })
-                    .catch(function(err) {
-                        console.log('ServiceWorker registration failed:', err);
-                    });
-            });
-        }
-        
-        // Inject CSS to remote site for safe-area
-        window.addEventListener('load', function() {
-            const style = document.createElement('style');
-            style.textContent = `
-                body {
-                    padding-top: env(safe-area-inset-top) !important;
-                }
-            `;
-            document.head.appendChild(style);
-        });
-    </script>
 </head>
 <body>
     <p>Loading Dark AI...</p>
