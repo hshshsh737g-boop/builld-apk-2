@@ -1,39 +1,38 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dark Nexus // Interface</title>
-    <!-- Tailwind CSS CDN for quick preview. in production, use PostCSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<html style="height: 100%; margin: 0; padding: 0;">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Dark AI</title>
     <style>
-      /* Base styles now handled by index.css */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: #000;
+        }
+        #wrapper {
+            width: 100%;
+            height: 100%;
+            padding-top: env(safe-area-inset-top);
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: block;
+        }
     </style>
-
-<script type="importmap">
-{
-  "imports": {
-    "react": "https://esm.sh/react@^19.2.4",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
-    "react/": "https://esm.sh/react@^19.2.4/",
-    "@google/genai": "https://esm.sh/@google/genai@^1.39.0",
-    "lucide-react": "https://esm.sh/lucide-react@^0.563.0",
-    "vite": "https://esm.sh/vite@^7.3.1",
-    "@vitejs/plugin-react": "https://esm.sh/@vitejs/plugin-react@^5.1.3",
-    "path": "https://esm.sh/path@^0.12.7",
-    "express": "https://esm.sh/express@^5.2.1",
-    "fs": "https://esm.sh/fs@^0.0.1-security",
-    "url": "https://esm.sh/url@^0.11.4",
-    "http": "https://esm.sh/http@^0.0.1-security",
-    "firebase/": "https://esm.sh/firebase@^12.8.0/"
-  }
-}
-</script>
-  <script type="module" crossorigin src="/assets/index-3YeZ0_24.js"></script>
-  <link rel="stylesheet" crossorigin href="/assets/index-Crufiypj.css">
 </head>
-  <body>
-    <div id="root"></div>
-  </body>
+<body>
+    <div id="wrapper">
+        <iframe src="https://dark-ai-beta.vercel.app/" allow="clipboard-read; clipboard-write"></iframe>
+    </div>
+</body>
 </html>
