@@ -11,18 +11,50 @@ import android.net.Uri;
 import android.os.Environment;
 import android.widget.Toast;
 import android.util.Base64;
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.os.Build;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import com.getcapacitor.BridgeActivity;
 import java.io.File;
 import java.io.FileOutputStream;
 
 public class MainActivity extends BridgeActivity {
     
+    private static final int STORAGE_PERMISSION_CODE = 100;
+    
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
         setupStatusBar();
+        
+        // Request storage permission
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                                     Manifest.permission.READ_EXTERNAL_STORAGE},
+                        STORAGE_PERMISSION_CODE);
+            }
+        }
+        
         setupDownloadHandler();
+    }
+    
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        
+        if (requestCode == STORAGE_PERMISSION_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(this, "Storage permission granted", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Storage permission denied - downloads won't work", Toast.LENGTH_LONG).show();
+            }
+        }
     }
     
     private void setupStatusBar() {
