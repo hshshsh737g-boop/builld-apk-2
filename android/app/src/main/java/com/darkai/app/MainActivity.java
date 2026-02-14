@@ -38,7 +38,6 @@ public class MainActivity extends BridgeActivity {
         cookieManager.setAcceptThirdPartyCookies(webView, true);
         
         // Cache settings for better performance
-        settings.setAppCacheEnabled(true);
         settings.setCacheMode(WebSettings.LOAD_DEFAULT);
         
         // Hardware acceleration for smoother rendering
@@ -51,7 +50,7 @@ public class MainActivity extends BridgeActivity {
     }
     
     @Override
-    protected void onPause() {
+    public void onPause() {
         super.onPause();
         // Flush cookies to disk when app goes to background
         CookieManager.getInstance().flush();
