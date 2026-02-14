@@ -132,7 +132,10 @@ public class MainActivity extends BridgeActivity {
         }, "AndroidDownloader");
         
         webView.setDownloadListener((url, userAgent, contentDisposition, mimeType, contentLength) -> {
-            if (url.startsWith("blob:")) {
+            // Handle BLOB and DATA URLs
+            if (url.startsWith("blob:") || url.startsWith("data:")) {
+                Toast.makeText(getApplicationContext(), "Processing Download...", Toast.LENGTH_SHORT).show();
+                
                 String js = "javascript:(function() {" +
                         "  var xhr = new XMLHttpRequest();" +
                         "  xhr.open('GET', '" + url + "', true);" +
@@ -145,7 +148,12 @@ public class MainActivity extends BridgeActivity {
                         "        AndroidDownloader.downloadBlob(reader.result, '" + mimeType + "');" +
                         "      };" +
                         "      reader.readAsDataURL(blob);" +
+                        "    } else {" +
+                        "       console.error('Blob fetch failed: ' + this.status);" +
                         "    }" +
+                        "  };" +
+                        "  xhr.onerror = function() {" +
+                        "     console.error('XHR Error');" +
                         "  };" +
                         "  xhr.send();" +
                         "})()";
@@ -158,7 +166,7 @@ public class MainActivity extends BridgeActivity {
                     
                     request.setMimeType(mimeType);
                     request.addRequestHeader("User-Agent", userAgent);
-                    request.setDescription("Downloading content...");
+                    request.setDescription("Downloading file...");
                     request.setTitle(filename);
                     request.allowScanningByMediaScanner();
                     request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
@@ -167,9 +175,9 @@ public class MainActivity extends BridgeActivity {
                     DownloadManager dm = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
                     dm.enqueue(request);
                     
-                    Toast.makeText(getApplicationContext(), "Downloading...", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Downloading via System...", Toast.LENGTH_SHORT).show();
                 } catch (Exception e) {
-                    Toast.makeText(getApplicationContext(), "Download Error", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Download Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
                 }
             }
         });
