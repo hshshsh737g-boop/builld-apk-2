@@ -72,36 +72,58 @@ public class MainActivity extends BridgeActivity {
             @JavascriptInterface
             public void downloadBlob(String base64Data, String mimeType) {
                 try {
-                    String filename = "download_" + System.currentTimeMillis();
+                    String filename = "DarkAI_" + System.currentTimeMillis();
+                    String extension = ".bin";
                     
-                    // Simple extension guessing
-                    if (mimeType.contains("pdf")) filename += ".pdf";
-                    else if (mimeType.contains("png")) filename += ".png";
-                    else if (mimeType.contains("jpg")) filename += ".jpg";
-                    else if (mimeType.contains("zip")) filename += ".zip";
-                    else filename += ".bin";
+                    if (mimeType.contains("pdf")) extension = ".pdf";
+                    else if (mimeType.contains("png")) extension = ".png";
+                    else if (mimeType.contains("jpeg") || mimeType.contains("jpg")) extension = ".jpg";
+                    else if (mimeType.contains("zip")) extension = ".zip";
+                    
+                    filename += extension;
 
                     byte[] data = Base64.decode(base64Data.split(",")[1], Base64.DEFAULT);
                     
-                    File downloadsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-                    File file = new File(downloadsDir, filename);
-                    
-                    FileOutputStream fos = new FileOutputStream(file);
-                    fos.write(data);
-                    fos.close();
-                    
-                    // Notify system of new file
-                    DownloadManager dm = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
-                    dm.addCompletedDownload(filename, "Dark AI Download", true, mimeType, file.getAbsolutePath(), file.length(), true);
-                    
-                    final String finalFilename = filename;
-                    runOnUiThread(() -> 
-                        Toast.makeText(getApplicationContext(), "Saved to Downloads: " + finalFilename, Toast.LENGTH_LONG).show()
-                    );
+                    // Use MediaStore for Android 10+ (Scoped Storage)
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                        android.content.ContentValues values = new android.content.ContentValues();
+                        values.put(android.provider.MediaStore.MediaColumns.DISPLAY_NAME, filename);
+                        values.put(android.provider.MediaStore.MediaColumns.MIME_TYPE, mimeType);
+                        values.put(android.provider.MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_DOWNLOADS);
+                        
+                        Uri uri = getContentResolver().insert(android.provider.MediaStore.Downloads.EXTERNAL_CONTENT_URI, values);
+                        
+                        if (uri != null) {
+                            java.io.OutputStream outputStream = getContentResolver().openOutputStream(uri);
+                            outputStream.write(data);
+                            outputStream.close();
+                            
+                            runOnUiThread(() -> 
+                                Toast.makeText(getApplicationContext(), "Saved to Downloads: " + filename, Toast.LENGTH_LONG).show()
+                            );
+                        } else {
+                            throw new Exception("Failed to create MediaStore entry");
+                        }
+                    } else {
+                        // Legacy approach for Android 9 and below
+                        File downloadsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+                        File file = new File(downloadsDir, filename);
+                        FileOutputStream fos = new FileOutputStream(file);
+                        fos.write(data);
+                        fos.close();
+                        
+                        DownloadManager dm = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
+                        dm.addCompletedDownload(filename, "Dark AI Download", true, mimeType, file.getAbsolutePath(), file.length(), true);
+                        
+                        runOnUiThread(() -> 
+                            Toast.makeText(getApplicationContext(), "Saved to Downloads: " + filename, Toast.LENGTH_LONG).show()
+                        );
+                    }
                     
                 } catch (Exception e) {
+                    final String errorMsg = e.getMessage();
                     runOnUiThread(() -> 
-                        Toast.makeText(getApplicationContext(), "Error saving file: " + e.getMessage(), Toast.LENGTH_LONG).show()
+                        Toast.makeText(getApplicationContext(), "Error saving: " + errorMsg, Toast.LENGTH_LONG).show()
                     );
                 }
             }
