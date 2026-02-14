@@ -145,7 +145,7 @@ public class MainActivity extends BridgeActivity {
                         "      var blob = this.response;" +
                         "      var reader = new FileReader();" +
                         "      reader.onloadend = function() {" +
-                        "        AndroidDownloader.downloadBlob(reader.result, '" + mimeType + "');" +
+                        "        AndroidDownloader.downloadBlob(reader.result, blob.type);" +
                         "      };" +
                         "      reader.readAsDataURL(blob);" +
                         "    } else {" +
