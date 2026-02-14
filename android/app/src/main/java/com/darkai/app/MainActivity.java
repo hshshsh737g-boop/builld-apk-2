@@ -98,8 +98,9 @@ public class MainActivity extends BridgeActivity {
                             outputStream.write(data);
                             outputStream.close();
                             
+                            final String finalFilename = filename;
                             runOnUiThread(() -> 
-                                Toast.makeText(getApplicationContext(), "Saved to Downloads: " + filename, Toast.LENGTH_LONG).show()
+                                Toast.makeText(getApplicationContext(), "Saved to Downloads: " + finalFilename, Toast.LENGTH_LONG).show()
                             );
                         } else {
                             throw new Exception("Failed to create MediaStore entry");
@@ -115,8 +116,9 @@ public class MainActivity extends BridgeActivity {
                         DownloadManager dm = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
                         dm.addCompletedDownload(filename, "Dark AI Download", true, mimeType, file.getAbsolutePath(), file.length(), true);
                         
+                        final String finalFilename = filename;
                         runOnUiThread(() -> 
-                            Toast.makeText(getApplicationContext(), "Saved to Downloads: " + filename, Toast.LENGTH_LONG).show()
+                            Toast.makeText(getApplicationContext(), "Saved to Downloads: " + finalFilename, Toast.LENGTH_LONG).show()
                         );
                     }
                     
