@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dark AI - Main Interface</title>
+    <link rel="stylesheet" href="css/app.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            width: 260px;
+            background: rgba(15, 15, 15, 0.95);
+            border-left: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            flex-direction: column;
+            padding: 1rem;
+            gap: 1.5rem;
+        }
+        
+        .new-operation-btn {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: var(--color-text-main);
+            font-size: 0.9rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s;
+        }
+        
+        .new-operation-btn:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+        
+        .new-operation-btn svg {
+            width: 18px;
+            height: 18px;
+            stroke: currentColor;
+        }
+        
+        .history-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .history-header {
+            font-size: 0.7rem;
+            color: var(--color-text-dim);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+        
+        .history-item {
+            padding: 0.75rem;
+            background: transparent;
+            border: none;
+            border-radius: 6px;
+            color: var(--color-text-main);
+            font-size: 0.85rem;
+            cursor: pointer;
+            text-align: right;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s;
+            border-right: 2px solid transparent;
+        }
+        
+        .history-item:hover,
+        .history-item.active {
+            background: rgba(255, 255, 255, 0.08);
+            border-right-color: var(--color-primary-red);
+        }
+        
+        .history-item svg {
+            width: 16px;
+            height: 16px;
+            stroke: var(--color-text-dim);
+        }
+        
+        .user-info {
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, rgba(220, 38, 38, 0.2), rgba(220, 38, 38, 0.05));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .user-avatar svg {
+            width: 18px;
+            height: 18px;
+            stroke: var(--color-primary-red);
+        }
+        
+        .user-details {
+            flex: 1;
+        }
+        
+        .user-name {
+            font-size: 0.85rem;
+            color: var(--color-text-main);
+            font-weight: 500;
+        }
+        
+        .user-status {
+            font-size: 0.7rem;
+            color: var(--color-text-dim);
+        }
+        
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* Header */
+        .app-header {
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .app-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .app-logo svg {
+            width: 24px;
+            height: 24px;
+            stroke: var(--color-primary-red);
+        }
+        
+        .app-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+        }
+        
+        .app-subtitle {
+            font-size: 0.65rem;
+            color: var(--color-text-dim);
+            letter-spacing: 0.1em;
+        }
+        
+        .header-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .action-btn {
+            padding: 0.5rem 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            color: var(--color-text-dim);
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+        
+        .action-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--color-text-main);
+        }
+        
+        .action-btn svg {
+            width: 14px;
+            height: 14px;
+            stroke: currentColor;
+        }
+        
+        /* Chat Area */
+        .chat-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+        
+        .welcome-state {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .welcome-icon {
+            width: 64px;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, rgba(220, 38, 38, 0.15), rgba(220, 38, 38, 0.05));
+            border: 2px solid rgba(220, 38, 38, 0.3);
+            border-radius: 16px;
+            box-shadow: 0 0 30px rgba(220, 38, 38, 0.2);
+        }
+        
+        .welcome-icon svg {
+            width: 32px;
+            height: 32px;
+            stroke: var(--color-primary-red);
+        }
+        
+        .welcome-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--color-text-main);
+        }
+        
+        /* Input Area */
+        .input-area {
+            padding: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .input-container {
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+        }
+        
+        .message-input {
+            width: 100%;
+            padding: 1rem 3.5rem 1rem 1.25rem;
+            background: rgba(20, 20, 20, 0.8);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: var(--color-text-main);
+            font-size: 0.95rem;
+            font-family: inherit;
+            resize: none;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+        
+        .message-input::placeholder {
+            color: var(--color-text-dim);
+        }
+        
+        .message-input:focus {
+            border-color: rgba(255, 255, 255, 0.25);
+            box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.05), 0 10px 40px -10px rgba(0, 0, 0, 0.6);
+        }
+        
+        .send-btn {
+            position: absolute;
+            left: 1rem;
+            bottom: 0.875rem;
+            width: 36px;
+            height: 36px;
+            background: var(--color-primary-red);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+        
+        .send-btn:hover {
+            background: #b91c1c;
+            transform: scale(1.05);
+        }
+        
+        .send-btn svg {
+            width: 18px;
+            height: 18px;
+            stroke: white;
+        }
+        
+        .input-footer {
+            text-align: center;
+            margin-top: 0.75rem;
+            font-size: 0.7rem;
+            color: var(--color-text-dim);
+        }
+        
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                position: fixed;
+                right: -260px;
+                top: 0;
+                height: 100%;
+                z-index: 1000;
+                transition: right 0.3s;
+            }
+            
+            .sidebar.open {
+                right: 0;
+            }
+            
+            .header-actions {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <button class="new-operation-btn">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+            </svg>
+            New operation
+        </button>
+        
+        <div class="history-section">
+            <div class="history-header">History</div>
+            <button class="history-item active">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                </svg>
+                New Operation
+            </button>
+        </div>
+        
+        <div class="user-info">
+            <div class="user-avatar">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                </svg>
+            </div>
+            <div class="user-details">
+                <div class="user-name">Identity Secured</div>
+                <div class="user-status">Prot:DD72 // Enc:active:329.ai</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Header -->
+        <div class="app-header">
+            <div class="app-logo">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <rect x="4" y="6" width="16" height="12" rx="2" stroke-width="2"/>
+                    <path d="M8 15h8M8 11h4" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M7 6V5a1 1 0 011-1h8a1 1 0 011 1v1" stroke-width="2"/>
+                </svg>
+                <div>
+                    <div class="app-title">DARK AI</div>
+                    <div class="app-subtitle">UNRESTRICTED // V 2.6 // MANUAL-CTRL</div>
+                </div>
+            </div>
+            
+            <div class="header-actions">
+                <button class="action-btn">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    </svg>
+                    Persona
+                </button>
+                <button class="action-btn">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                    Search
+                </button>
+                <button class="action-btn">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                    Faster
+                </button>
+                <button class="action-btn">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                    </svg>
+                    Thinker
+                </button>
+            </div>
+        </div>
+        
+        <!-- Chat Area -->
+        <div class="chat-area">
+            <div class="welcome-state animate-fade-in">
+                <div class="welcome-icon">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <rect x="4" y="6" width="16" height="12" rx="2" stroke-width="2"/>
+                        <path d="M8 15h8M8 11h4" stroke-width="2" stroke-linecap="round"/>
+                        <path d="M7 6V5a1 1 0 011-1h8a1 1 0 011 1v1" stroke-width="2"/>
+                    </svg>
+                </div>
+                <h2 class="welcome-title">Dark AI Online</h2>
+            </div>
+        </div>
+        
+        <!-- Input Area -->
+        <div class="input-area">
+            <div class="input-container">
+                <textarea 
+                    class="message-input input-capsule" 
+                    placeholder="Enter command or query..."
+                    rows="1"
+                    id="messageInput"
+                ></textarea>
+                <button class="send-btn" id="sendBtn">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                    </svg>
+                </button>
+            </div>
+            <div class="input-footer">
+                GPT-4a V3.6 // SDR // ENCRYPTED
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Auto-resize textarea
+        const messageInput = document.getElementById('messageInput');
+        messageInput.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = this.scrollHeight + 'px';
+        });
+        
+        // Send message
+        document.getElementById('sendBtn').addEventListener('click', function() {
+            const message = messageInput.value.trim();
+            if (message) {
+                // Here you would send to the actual backend
+                console.log('Sending:', message);
+                messageInput.value = '';
+                messageInput.style.height = 'auto';
+            }
+        });
+        
+        // Send on Enter (Shift+Enter for new line)
+        messageInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                document.getElementById('sendBtn').click();
+            }
+        });
+        
+        // New operation button
+        document.querySelector('.new-operation-btn').addEventListener('click', function() {
+            messageInput.value = '';
+            messageInput.style.height = 'auto';
+            messageInput.focus();
+        });
+    </script>
+</body>
+</html>

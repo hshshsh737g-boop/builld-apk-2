@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dark AI - Login</title>
+    <link rel="stylesheet" href="css/app.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+        
+        .login-container {
+            width: 100%;
+            max-width: 400px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2rem;
+            animation: fadeIn 0.6s ease-out;
+        }
+        
+        .logo-section {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .logo-icon {
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, rgba(220, 38, 38, 0.1) 0%, rgba(220, 38, 38, 0.05) 100%);
+            border: 2px solid rgba(220, 38, 38, 0.3);
+            border-radius: 20px;
+            box-shadow: 0 0 30px rgba(220, 38, 38, 0.2);
+        }
+        
+        .logo-svg {
+            width: 40px;
+            height: 40px;
+            fill: var(--color-primary-red);
+        }
+        
+        .logo-title {
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: var(--color-text-main);
+        }
+        
+        .logo-subtitle {
+            font-size: 0.75rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--color-text-dim);
+            font-weight: 500;
+        }
+        
+        .login-form {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .input-group {
+            position: relative;
+        }
+        
+        .input-field {
+            width: 100%;
+            padding: 1rem 1rem 1rem 3rem;
+            font-size: 0.95rem;
+            color: var(--color-text-main);
+            background: transparent;
+            border: none;
+            outline: none;
+            font-family: inherit;
+        }
+        
+        .input-field::placeholder {
+            color: var(--color-text-dim);
+        }
+        
+        .input-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 20px;
+            stroke: var(--color-text-dim);
+        }
+        
+        .toggle-password {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .toggle-password svg {
+            width: 20px;
+            height: 20px;
+            stroke: var(--color-text-dim);
+            transition: stroke 0.2s;
+        }
+        
+        .toggle-password:hover svg {
+            stroke: var(--color-text-main);
+        }
+        
+        .login-button {
+            width: 100%;
+            padding: 1rem;
+            font-size: 0.95rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: white;
+            background: var(--color-primary-red);
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            box-shadow: 0 4px 20px rgba(220, 38, 38, 0.3);
+        }
+        
+        .login-button:hover {
+            background: #b91c1c;
+            box-shadow: 0 6px 30px rgba(220, 38, 38, 0.4);
+            transform: translateY(-2px);
+        }
+        
+        .login-button:active {
+            transform: translateY(0);
+        }
+        
+        .login-button svg {
+            width: 18px;
+            height: 18px;
+            stroke: currentColor;
+        }
+        
+        .disclaimer {
+            text-align: center;
+            font-size: 0.7rem;
+            color: var(--color-text-dim);
+            line-height: 1.4;
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <!-- Logo Section -->
+        <div class="logo-section animate-fade-in">
+            <div class="logo-icon">
+                <svg class="logo-svg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="4" y="6" width="16" height="12" rx="2" stroke="currentColor" stroke-width="2"/>
+                    <path d="M8 15h8M8 11h4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M7 6V5a1 1 0 011-1h8a1 1 0 011 1v1" stroke="currentColor" stroke-width="2"/>
+                </svg>
+            </div>
+            <h1 class="logo-title">Dark AI</h1>
+            <p class="logo-subtitle">Unrestricted Access Terminal</p>
+        </div>
+        
+        <!-- Login Form -->
+        <form class="login-form" id="loginForm">
+            <div class="input-group input-capsule animate-slide-up">
+                <svg class="input-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+                <input 
+                    type="email" 
+                    class="input-field" 
+                    placeholder="Agent Identity (Email)"
+                    id="emailInput"
+                    required
+                />
+            </div>
+            
+            <div class="input-group input-capsule animate-slide-up" style="animation-delay: 0.1s;">
+                <svg class="input-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                </svg>
+                <input 
+                    type="password" 
+                    class="input-field" 
+                    placeholder="Passcode"
+                    id="passwordInput"
+                    required
+                />
+                <button type="button" class="toggle-password" id="togglePassword">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                    </svg>
+                </button>
+            </div>
+            
+            <button type="submit" class="login-button animate-slide-up" style="animation-delay: 0.2s;">
+                Initialize Session
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                </svg>
+            </button>
+        </form>
+        
+        <p class="disclaimer animate-fade-in" style="animation-delay: 0.3s;">
+            By accessing this terminal, you accept full responsibility.<br>
+            System v2.6 // Encrypted
+        </p>
+    </div>
+
+    <script>
+        // Toggle password visibility
+        document.getElementById('togglePassword').addEventListener('click', function() {
+            const passwordInput = document.getElementById('passwordInput');
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+        });
+        
+        // Handle form submission
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('emailInput').value;
+            const password = document.getElementById('passwordInput').value;
+            
+            // Store credentials and redirect to main app
+            if (email && password) {
+                // Here you would normally validate with backend
+                // For now, just redirect to the main interface
+                window.location.href = 'main.html';
+            }
+        });
+    </script>
+</body>
+</html>
